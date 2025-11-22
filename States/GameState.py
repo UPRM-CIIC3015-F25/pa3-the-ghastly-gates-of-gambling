@@ -570,11 +570,10 @@ class GameState(State):
                     return True
                 return suitOrder.index(card_a.suit) < suitOrder.index(card_b.suit)
 
-        for i in range(len(self.cards)):
-            for j in range(i+1, len(self.cards)):
-                if check_cards_before(self.cards[i], self.cards[j]):
-                    self.cards[i] = self.cards[j]
-                    self.cards[j] = self.cards[i]
+        for i in range(len(self.hand)):
+            for j in range(i+1, len(self.hand)):
+                if check_cards_before(self.hand[i], self.hand[j]):
+                    self.hand[i], self.hand[j] = self.hand[j], self.hand[i]
 
 
 
