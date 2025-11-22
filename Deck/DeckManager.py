@@ -146,9 +146,9 @@ class DeckManager:
     def createDeck(self, subLevel: SubLevel = None):
         cardImages = self.load_card_images(subLevel)
         deck = []
-        ranks = [rank.TWO, rank.THREE, rank.FOUR, rank.FIVE, rank.SIX, rank.SEVEN, rank.EIGHT, rank.NINE,
-                 rank.TEN, rank.JACK, rank.QUEEN, rank.KING, rank.ACE]
-        suits = [suit.CLUBS, suit.HEARTS, suit.SPADES, suit.DIAMONDS]
+        ranks = [Rank.TWO, Rank.THREE, Rank.FOUR, Rank.FIVE, Rank.SIX, Rank.SEVEN, Rank.EIGHT, Rank.NINE,
+                 Rank.TEN, Rank.JACK, Rank.QUEEN, Rank.KING, Rank.ACE]
+        suits = [Suit.CLUBS, Suit.HEARTS, Suit.SPADES, Suit.DIAMONDS]
         for suit in suits:
             for rank in ranks:
                 key = (suit, rank)

@@ -556,6 +556,27 @@ class GameState(State):
     def SortCards(self, sort_by: str = "suit"):
         suitOrder = [Suit.HEARTS, Suit.CLUBS, Suit.DIAMONDS, Suit.SPADES]         # Define the order of suits
         self.updateCards(400, 520, self.cards, self.hand, scale=1.2)
+        def check_cards_before(card_a, card_b):
+            if sort_by == "suit":
+                if suitOrder.index(card_a.suit) < suitOrder.index(card_b.suit):
+                    return False
+                if suitOrder.index(card_a.suit) > suitOrder.index(card_b.suit):
+                    return True
+                return card_a.rank.value
+            else:
+                if card_a.rank.value < card_b.rank.value:
+                    return False
+                if card_a.rank.value > card_b.rank.value:
+                    return True
+                return suitOrder.index(card_a.suit) < suitOrder.index(card_b.suit)
+
+        for i in range(len(self.cards)):
+            for j in range(i+1, len(self.cards)):
+                if check_cards_before(self.cards[i], self.cards[j]):
+                    self.cards[i] = self.cards[j]
+                    self.cards[j] = self.cards[i]
+
+
 
     def checkHoverCards(self):
         mousePos = pygame.mouse.get_pos()
