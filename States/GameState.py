@@ -845,7 +845,14 @@ class GameState(State):
                 self.hand.remove(card)
             remove_cards()
         remove_cards()
-        State.deckManager.resetDeck(self.deck, self.hand, target=8)
+
+        def refill_hand():
+            if len(self.hand) >= 8:
+                return self.hand
+            new_card = State.deckManager.dealCards(self.deck, 1)[0]
+            self.hand.append(new_card)
+            refill_hand()
+        refill_hand()
 
         self.cardsSelectedList.clear()
         self.cardsSelectedRect.clear()
