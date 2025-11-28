@@ -1,25 +1,25 @@
 import pygame
-from States.Core.StateClass import State
-from States.Menus.TitleState import StartState
-from States.GameState import GameState
-from States.Menus.GameWinState import GameWinState
-from States.Core.RunInfoState import RunInfoState
-from States.Core.PlayerInfo import PlayerInfo
-from States.Menus.ShopState import ShopState
-from States.Menus.LevelSelectState import LevelSelectState
+from states.core.StateClass import State
+from states.menus.TitleState import StartState
+from states.GameState import GameState
+from states.menus.GameWinState import GameWinState
+from states.core.RunInfoState import RunInfoState
+from states.core.PlayerInfo import PlayerInfo
+from states.menus.ShopState import ShopState
+from states.menus.LevelSelectState import LevelSelectState
 
 if __name__ == "__main__":
     # --- Pygame setup ---
     pygame.init()
     pygame.mixer.init()
-    pygame.mixer.music.load("Graphics/Sounds/mainTheme.mp3")
+    pygame.mixer.music.load("graphics/sounds/mainTheme.mp3")
     pygame.display.set_caption("Balatro")
     screen = pygame.display.set_mode((1300, 750))
     pygame.mixer.music.set_volume(0.3)
     pygame.mixer.music.play(-1)
     State.set_screen(screen)
     
-    # --- Initial States ---
+    # --- Initial states ---
     startScreen = StartState()
     player = PlayerInfo()
     gameScreen = GameState(player=player)

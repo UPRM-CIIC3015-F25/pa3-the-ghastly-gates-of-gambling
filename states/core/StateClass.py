@@ -1,7 +1,7 @@
 import pygame
 from abc import ABC, abstractmethod
 
-from Deck.DeckManager import DeckManager
+from deck.DeckManager import DeckManager
 
 # DO NOT TOUCH THIS FILE
 
@@ -16,7 +16,7 @@ class State(ABC):
     def __init__(self, next_state: str = ""):
         self.nextState = next_state
         self.isFinished = False
-        self.buttonSound =pygame.mixer.Sound('Graphics/Sounds/buttonSound.mp3')
+        self.buttonSound =pygame.mixer.Sound('graphics/sounds/buttonSound.mp3')
 
     @abstractmethod
     def update(self):

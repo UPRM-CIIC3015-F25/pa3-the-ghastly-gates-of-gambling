@@ -1,10 +1,10 @@
 import pygame
 import random
-from States.Menus.DebugState import DebugState
-from States.Core.StateClass import State
-from Cards.Card import Suit, Rank
-from States.Core.PlayerInfo import PlayerInfo
-from Deck.HandEvaluator import evaluate_hand
+from states.menus.DebugState import DebugState
+from states.core.StateClass import State
+from cards.Card import Suit, Rank
+from states.core.PlayerInfo import PlayerInfo
+from deck.HandEvaluator import evaluate_hand
 
 
 HAND_SCORES = {
@@ -22,7 +22,7 @@ HAND_SCORES = {
 class GameState(State):
     def __init__(self, nextState: str = "", player: PlayerInfo = None):
         super().__init__(nextState)
-        # ----------------------------Deck and Hand initialization----------------------------
+        # ----------------------------deck and Hand initialization----------------------------
         self.playerInfo = player # playerInfo object
         self.deck = State.deckManager.shuffleDeck(State.deckManager.createDeck(self.playerInfo.levelManager.curSubLevel))
         self.hand = State.deckManager.dealCards(self.deck, 8)
@@ -42,27 +42,27 @@ class GameState(State):
         self.playedHandNameList = ['']
         self.used = []
 
-        self.redTint = pygame.image.load("Graphics/Backgrounds/redTint.png").convert_alpha()
+        self.redTint = pygame.image.load("graphics/backgrounds/redTint.png").convert_alpha()
         self.redTint = pygame.transform.scale(self.redTint, (1300, 750))
         self.showRedTint = False
         self.redAlpha = 0
 
-        self.gameOverSound = pygame.mixer.Sound("Graphics/Sounds/gameEnd.mp3")
+        self.gameOverSound = pygame.mixer.Sound("graphics/sounds/gameEnd.mp3")
         self.gameOverSound.set_volume(0.6)  # adjust loudness if needed
 
         # --------------------------------Images----------------------------------------------
-        self.backgroundImage = pygame.image.load('Graphics/Backgrounds/gameplayBG.jpg')
+        self.backgroundImage = pygame.image.load('graphics/backgrounds/gameplayBG.jpg')
         self.background = pygame.transform.scale(self.backgroundImage, (1300, 750))
-        self.smallBlind = pygame.image.load('Graphics/Backgrounds/Blinds/smallBlind.png')
+        self.smallBlind = pygame.image.load('graphics/backgrounds/blinds/smallBlind.png')
 
-        self.tvOverlay = pygame.image.load('Graphics/Backgrounds/CRT.png').convert_alpha()
+        self.tvOverlay = pygame.image.load('graphics/backgrounds/CRT.png').convert_alpha()
         self.tvOverlay = pygame.transform.scale(self.tvOverlay, (1300, 750))
         # ----------------------------Player Options UI---------------------------------------
 
         # ----------------------------Boss Theme & Background----------------------------
         # Use the music channel for background themes (main/boss) to avoid overlaps
-        self.bossMusic_path = "Graphics/Sounds/bossBlindTheme.mp3"
-        self.bossBackgroundImage = pygame.image.load('Graphics/Backgrounds/bossBG.png')
+        self.bossMusic_path = "graphics/sounds/bossBlindTheme.mp3"
+        self.bossBackgroundImage = pygame.image.load('graphics/backgrounds/bossBG.png')
         self.bossBackground = pygame.transform.scale(self.bossBackgroundImage, (1300, 750))
         self.isBossActive = False
         self.bossMusicPlaying = False
@@ -87,11 +87,11 @@ class GameState(State):
         self.sortSuitRect = pygame.Rect(self.sortHandRect.x + inner_margin * 2 + inner_w, inner_y, inner_w, inner_h)
 
         # -------------------------------Text surfaces--------------------------------------
-        self.playHandText = self.playerInfo.textFont2.render("Play Hand", False, 'white')
-        self.discardText = self.playerInfo.textFont2.render("Discard", False, 'white')
-        self.sortRankText = self.playerInfo.textFont2.render("Rank", False, 'white')
-        self.sortSuitText = self.playerInfo.textFont2.render("Suit", False, 'white')
-        self.sortTitleText = self.playerInfo.textFont2.render("Sort Hand", False, 'white')
+        self.playHandtext = self.playerInfo.textFont2.render("Play Hand", False, 'white')
+        self.discardtext = self.playerInfo.textFont2.render("Discard", False, 'white')
+        self.sortRanktext = self.playerInfo.textFont2.render("Rank", False, 'white')
+        self.sortSuittext = self.playerInfo.textFont2.render("Suit", False, 'white')
+        self.sortTitletext = self.playerInfo.textFont2.render("Sort Hand", False, 'white')
 
         # ----------------------------Game Areas----------------------------------------------
         self.centerCardsRect = pygame.Rect(450, 300, 500, 140)
@@ -101,10 +101,10 @@ class GameState(State):
         self.pileContainer = pygame.Rect(1120, 550, 100, 140)
 
         # ----------------------------Sound Effects-------------------------------------------
-        self.select_sfx = pygame.mixer.Sound('Graphics/Sounds/selectCard.ogg')
-        self.deselect_sfx = pygame.mixer.Sound('Graphics/Sounds/deselectCard.ogg')
+        self.select_sfx = pygame.mixer.Sound('graphics/sounds/selectCard.ogg')
+        self.deselect_sfx = pygame.mixer.Sound('graphics/sounds/deselectCard.ogg')
 
-        # ----------------------------Deck Pile UI--------------------------------------------
+        # ----------------------------deck Pile UI--------------------------------------------
         self.show_deck_pile = False
         self.deck_button_rect = self.pileContainer.copy()
 
@@ -113,8 +113,8 @@ class GameState(State):
         self.playHandStartTime = 0
         self.playHandDuration = 5000   # show chips/mult for 5 seconds
         self.playedHandName = ""
-        self.playedHandTextSurface = None
-        self.scoreBreakdownTextSurface = None
+        self.playedHandtextSurface = None
+        self.scoreBreakdowntextSurface = None
         self.pending_round_add = 0      # amount to add to roundScore when timer expires
 
         self.updateCards(400, 520, self.cards, self.hand, scale=1.2)
@@ -133,7 +133,7 @@ class GameState(State):
             "Ogre": "Add +3 to the multiplier for each joker you own.",
             "StrawHat": "Grant +100 chips, then -5 per hand already played this round.",
             "Hog Rider": "If the played hand is a Straight, add +100 chips.",
-            "? Block": "If the played hand used exactly 4 Cards, add +4 chips.",
+            "? Block": "If the played hand used exactly 4 cards, add +4 chips.",
             "Hogwarts": "Each Ace played grants +4 multiplier and +20 chips.",
             "802": "If this is the last hand of the round, double the final gain.",
         }
@@ -209,21 +209,21 @@ class GameState(State):
                 self.playerInfo.playerMultiplier = 0
 
                 self.playerInfo.curHandOfPlayer = ""
-                self.playerInfo.curHandText = self.playerInfo.textFont1.render("", False, 'white')
+                self.playerInfo.curHandtext = self.playerInfo.textFont1.render("", False, 'white')
 
                 self.playHandActive = False
                 # clear activated jokers when the display period ends so they return to normal position
                 self.activated_jokers.clear()
                 self.playHandStartTime = 0
-                # Special boss effect: The Hook discards 2 random Cards from the hand
+                # Special boss effect: The Hook discards 2 random cards from the hand
                 if bossName == "The Hook":
-                    # choose Cards that are currently in hand and not the selected Cards
+                    # choose cards that are currently in hand and not the selected cards
                     posiblesCardToDiscard = []
                     for card in self.hand:
                         if card not in self.cardsSelectedList:
                             posiblesCardToDiscard.append(card)
 
-                    discardCount = min(2, len(posiblesCardToDiscard)) # what happends if less than 2 Cards available?
+                    discardCount = min(2, len(posiblesCardToDiscard)) # what happends if less than 2 cards available?
                     if discardCount > 0:
                         cardsToDiscard = random.sample(posiblesCardToDiscard, discardCount)
                         for c in cardsToDiscard:
@@ -261,7 +261,7 @@ class GameState(State):
     def switchToNormalTheme(self):
         # Restore the normal main theme on the music channel
         if self.bossMusicPlaying:
-            pygame.mixer.music.load("Graphics/Sounds/mainTheme.mp3")
+            pygame.mixer.music.load("graphics/sounds/mainTheme.mp3")
             pygame.mixer.music.play(-1)
             pygame.mixer.music.set_volume(0.3)
             self.bossMusicPlaying = False
@@ -291,16 +291,16 @@ class GameState(State):
         self.screen.blit(self.centerCardsSurface, self.centerCardsRect)
 
     def drawPlayedHandName(self):
-        if self.playHandActive and self.playedHandTextSurface:
-            text_rect = self.playedHandTextSurface.get_rect(centerx=self.centerCardsRect.centerx)
+        if self.playHandActive and self.playedHandtextSurface:
+            text_rect = self.playedHandtextSurface.get_rect(centerx=self.centerCardsRect.centerx)
             text_rect.bottom = self.centerCardsRect.top - 40  # Positioned higher
-            self.screen.blit(self.playedHandTextSurface, text_rect)
+            self.screen.blit(self.playedHandtextSurface, text_rect)
 
-        if self.playHandActive and self.scoreBreakdownTextSurface:
-            score_rect = self.scoreBreakdownTextSurface.get_rect(centerx=self.centerCardsRect.centerx)
+        if self.playHandActive and self.scoreBreakdowntextSurface:
+            score_rect = self.scoreBreakdowntextSurface.get_rect(centerx=self.centerCardsRect.centerx)
             # Position it relative to the hand name's rect for perfect alignment
             score_rect.top = text_rect.bottom + 5
-            self.screen.blit(self.scoreBreakdownTextSurface, score_rect)
+            self.screen.blit(self.scoreBreakdowntextSurface, score_rect)
 
     def drawJokers(self):
         # Draw container background
@@ -353,22 +353,22 @@ class GameState(State):
             State.screen.blit(scaled, rect)
 
         # count/title text (keeps old placement just under container)
-        jokerTitleText = self.playerInfo.textFont1.render((str(len(self.playerJokers))) + "/ 2", True, 'white')
-        self.screen.blit(jokerTitleText, (self.jokerContainer.x + 1, self.jokerContainer.y + self.jokerContainer.height + 0))
+        jokerTitletext = self.playerInfo.textFont1.render((str(len(self.playerJokers))) + "/ 2", True, 'white')
+        self.screen.blit(jokerTitletext, (self.jokerContainer.x + 1, self.jokerContainer.y + self.jokerContainer.height + 0))
 
     def drawDeckPile(self):
         pileContainer = pygame.Surface(self.pileContainer.size, pygame.SRCALPHA)
         pygame.draw.rect(pileContainer, (0, 0, 0, 120), pileContainer.get_rect())
-        balatro_card = pygame.image.load('Graphics/Cards/Poker_Sprites.png').convert_alpha()
+        balatro_card = pygame.image.load('graphics/cards/Poker_Sprites.png').convert_alpha()
         card_width, card_height = 70, 94
         card_img = balatro_card.subsurface(pygame.Rect(0, 0, card_width, card_height))
         scaled_card = pygame.transform.scale(card_img, self.pileContainer.size)
         pileContainer.blit(scaled_card, (0, 0))
         self.screen.blit(pileContainer, self.pileContainer.topleft)
-        pileCountText = self.playerInfo.textFont1.render(str(len(self.deck)) + "/44", True, 'white')
+        pileCounttext = self.playerInfo.textFont1.render(str(len(self.deck)) + "/44", True, 'white')
         textX = self.pileContainer.x + 5
         textY = self.pileContainer.y + self.pileContainer.height + 5
-        self.screen.blit(pileCountText, (textX, textY))
+        self.screen.blit(pileCounttext, (textX, textY))
         pygame.draw.rect(self.screen, (50, 50, 200), self.deck_button_rect, 3)
 
     def drawPlayerOptions(self):
@@ -387,11 +387,11 @@ class GameState(State):
         else:
             pygame.draw.rect(self.playerOpcions, 'orange', self.sortSuitRect, border_radius=8)
 
-        self.playerOpcions.blit(self.sortRankText, self.sortRankText.get_rect(center=self.sortRankRect.center))
-        self.playerOpcions.blit(self.sortSuitText, self.sortSuitText.get_rect(center=self.sortSuitRect.center))
-        sort_title_rect = self.sortTitleText.get_rect(centerx=self.sortHandRect.centerx)
+        self.playerOpcions.blit(self.sortRanktext, self.sortRanktext.get_rect(center=self.sortRankRect.center))
+        self.playerOpcions.blit(self.sortSuittext, self.sortSuittext.get_rect(center=self.sortSuitRect.center))
+        sort_title_rect = self.sortTitletext.get_rect(centerx=self.sortHandRect.centerx)
         sort_title_rect.centery = self.sortRankRect.y - (sort_title_rect.height // 2) - 6
-        self.playerOpcions.blit(self.sortTitleText, sort_title_rect)
+        self.playerOpcions.blit(self.sortTitletext, sort_title_rect)
 
         if len(self.cardsSelectedList) > 0:
             if self.playHandButtonRect.collidepoint(mousePosPlayerOpcions):
@@ -404,9 +404,9 @@ class GameState(State):
             else:
                 pygame.draw.rect(self.playerOpcions, 'red', self.discardButtonRect, border_radius=12)
 
-            self.playerOpcions.blit(self.playHandText,
-                                    self.playHandText.get_rect(center=self.playHandButtonRect.center))
-            self.playerOpcions.blit(self.discardText, self.discardText.get_rect(center=self.discardButtonRect.center))
+            self.playerOpcions.blit(self.playHandtext,
+                                    self.playHandtext.get_rect(center=self.playHandButtonRect.center))
+            self.playerOpcions.blit(self.discardtext, self.discardtext.get_rect(center=self.discardButtonRect.center))
 
         State.screen.blit(self.playerOpcions, self.playerOpcionsRect.topleft)
 
@@ -685,7 +685,7 @@ class GameState(State):
                         break
             return best_seq  # may be empty
 
-        # Determine used Cards per hand type
+        # Determine used cards per hand type
         if hand_name == "Straight Flush":
             # find suit with >=5 then detect straight inside that suit
             for suit, cards in by_suit.items():
@@ -693,7 +693,7 @@ class GameState(State):
                     suit_ranks = [c.rank.value for c in cards]
                     seq = find_straight_ranks(suit_ranks)
                     if seq:
-                        # pick the Cards matching those ranks and suit
+                        # pick the cards matching those ranks and suit
                         for rv in seq:
                             # map low-Ace (1) back to 14 if needed
                             pick_val = 14 if rv == 1 and not any(c.rank.value == 1 for c in cards) else rv
@@ -739,7 +739,7 @@ class GameState(State):
                     flush_suit = suit
                     break
             if flush_suit:
-                # pick top 5 highest rank Cards of that suit
+                # pick top 5 highest rank cards of that suit
                 cards_sorted = sorted(by_suit[flush_suit], key=lambda c: c.rank.value, reverse=True)
                 used_cards = cards_sorted[:5]
 
@@ -784,12 +784,12 @@ class GameState(State):
             best = max(sel, key=lambda c: c.rank.value)
             used_cards = [best]
 
-        # Sum chips of only the used Cards
+        # Sum chips of only the used cards
         card_chips_sum = 0
         for c in used_cards:
             card_chips_sum += c.chips
 
-        # total chips for display = base hand value + sum of used Cards' chips
+        # total chips for display = base hand value + sum of used cards' chips
         total_chips = hand_chips + card_chips_sum
 
         # ------------------- Apply Joker effects -------------------
@@ -807,7 +807,7 @@ class GameState(State):
         self.playerInfo.playerMultiplier = hand_mult
         self.playerInfo.playerChips = total_chips
         self.playerInfo.curHandOfPlayer = hand_name
-        self.playerInfo.curHandText = self.playerInfo.textFont1.render(self.playerInfo.curHandOfPlayer, False, 'white')
+        self.playerInfo.curHandtext = self.playerInfo.textFont1.render(self.playerInfo.curHandOfPlayer, False, 'white')
 
         # compute amount that will be added to round when timer expires
         added_to_round = total_chips * hand_mult
@@ -817,9 +817,9 @@ class GameState(State):
         self.pending_round_add = added_to_round  # defer actual addition until timer ends
 
         # prepare on-screen feedback
-        self.playedHandTextSurface = self.playerInfo.textFont1.render(hand_name, True, 'yellow')
-        score_breakdown_text = f"(Hand: {hand_chips} + Cards: {card_chips_sum}) Chips | x{hand_mult} Mult -> +{added_to_round}"
-        self.scoreBreakdownTextSurface = self.playerInfo.textFont2.render(score_breakdown_text, True, 'white')
+        self.playedHandtextSurface = self.playerInfo.textFont1.render(hand_name, True, 'yellow')
+        score_breakdown_text = f"(Hand: {hand_chips} + cards: {card_chips_sum}) Chips | x{hand_mult} Mult -> +{added_to_round}"
+        self.scoreBreakdowntextSurface = self.playerInfo.textFont2.render(score_breakdown_text, True, 'white')
 
         self.playHandStartTime = pygame.time.get_ticks()
         self.playHandActive = True

@@ -1,10 +1,10 @@
 import pygame
 import random
 import os
-from Cards.Planets import PLANETS, PlanetCard
-from Cards.Jokers import Jokers
-from States.GameState import HAND_SCORES
-from States.Core.StateClass import State
+from cards.Planets import PLANETS, PlanetCard
+from cards.Jokers import Jokers
+from states.GameState import HAND_SCORES
+from states.core.StateClass import State
 
 class ShopState(State):
 
@@ -17,8 +17,8 @@ class ShopState(State):
         self.background = State.screenshot
 
         # --- CRT overlay ---
-        self.tvOverlay_raw = pygame.image.load('Graphics/backgrounds/CRT.png').convert_alpha()
-        self.buy_sound = pygame.mixer.Sound("Graphics/Sounds/buySFX.wav")
+        self.tvOverlay_raw = pygame.image.load('graphics/backgrounds/CRT.png').convert_alpha()
+        self.buy_sound = pygame.mixer.Sound("graphics/sounds/buySFX.wav")
         self.buy_sound.set_volume(1.0)
         self.tvOverlay = pygame.transform.scale(self.tvOverlay_raw, (1300, 750))
         self.tvOverlay.set_alpha(160)
@@ -61,7 +61,7 @@ class ShopState(State):
 
     # ---------- Load planet art ----------
     def loadPlanets(self):
-        folder = "Graphics/cards/Planets"
+        folder = "graphics/cards/planets"
         self.planet_cards = []
         if not os.path.exists(folder):
             print("[ERROR] Planet folder not found:", folder)

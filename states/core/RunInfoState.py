@@ -1,14 +1,14 @@
 import pygame
-from Cards.Card import Suit, Rank
-from States.Core.StateClass import State
-from States.GameState import HAND_SCORES
+from cards.Card import Suit, Rank
+from states.core.StateClass import State
+from states.GameState import HAND_SCORES
 
 class RunInfoState(State):
     def __init__(self, hand,nextState: str = ""):
         super().__init__(nextState)
 
         self.stackSurface = pygame.Surface((900, 600), pygame.SRCALPHA)
-        self.tvOverlay = pygame.image.load('Graphics/Backgrounds/CRT.png').convert_alpha()
+        self.tvOverlay = pygame.image.load('graphics/backgrounds/CRT.png').convert_alpha()
         self.tvOverlay = pygame.transform.scale(self.tvOverlay, (1300, 750))
         self.desc = ''
         self.cards = []
@@ -20,7 +20,7 @@ class RunInfoState(State):
         self.x = 350
         self.yStart = 100
         self.gap = 10
-        self.font = pygame.font.Font("Graphics/Text/m6x11.ttf", 24)
+        self.font = pygame.font.Font("graphics/text/m6x11.ttf", 24)
         self.cardImages = State.deckManager.load_card_images()
 
         # labels dictionary (10)
@@ -38,14 +38,14 @@ class RunInfoState(State):
         }
         # descriptions for each playable hand
         self.handDescriptions = [
-            "5 Cards in a row (consecutive ranks) all sharing the same suit.",
-            "4 Cards with the same rank.",
-            "3 Cards sharing a rank and 2 other ones sharing another rank.",
-            "5 Cards that share the same suit.",
-            "5 Cards in a row (consecutive ranks).",
-            "3 Cards sharing a rank.",
-            "2 pairs of Cards with different ranks.",
-            "1 pair of Cards with the same rank",
+            "5 cards in a row (consecutive ranks) all sharing the same suit.",
+            "4 cards with the same rank.",
+            "3 cards sharing a rank and 2 other ones sharing another rank.",
+            "5 cards that share the same suit.",
+            "5 cards in a row (consecutive ranks).",
+            "3 cards sharing a rank.",
+            "2 pairs of cards with different ranks.",
+            "1 pair of cards with the same rank",
             "If the played hand is not on the list, only the highest rank scores",
             "return to game"
         ]

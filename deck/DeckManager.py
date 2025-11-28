@@ -1,13 +1,13 @@
 import pygame
 import random
-from Cards.Card import Suit, Rank, Card
-from Cards.Jokers import Jokers
-from Levels.SubLevel import SubLevel
+from cards.Card import Suit, Rank, Card
+from cards.Jokers import Jokers
+from levels.SubLevel import SubLevel
 
 class DeckManager:
     def __init__(self):
         self.resetDeck = False
-        self.srcCardW, self.srcCardH = 70, 94  # Poker Cards source dimensions
+        self.srcCardW, self.srcCardH = 70, 94  # Poker cards source dimensions
         self.srcJokerW, self.srcJokerH = 133, 187 # Joker sheet dimensions
         self.targetJokerH = 150 # Unified Joker display height
         # === Joker names in order (left-to-right, top-to-bottom) ===
@@ -62,7 +62,7 @@ class DeckManager:
         Load 52 card faces at their original resolution (70x94),
         optionally applying 'The Mark' modifications if the boss requires it.
         """
-        sheet = pygame.image.load('Graphics/Cards/Poker_Sprites.png').convert_alpha()
+        sheet = pygame.image.load('graphics/cards/Poker_Sprites.png').convert_alpha()
 
         cardImages = {}
         useMark = False
@@ -98,7 +98,7 @@ class DeckManager:
         uniformly to the target height. Automatically adjusts slicing
         to prevent out-of-bounds errors.
         """
-        sheet = pygame.image.load('Graphics/Cards/Joker_Sprites.png').convert_alpha()
+        sheet = pygame.image.load('graphics/cards/Joker_Sprites.png').convert_alpha()
         sheetW, sheetH = sheet.get_width(), sheet.get_height()
 
         # expected layout is 5 columns x 2 rows — compute cell size from sheet
@@ -137,8 +137,8 @@ class DeckManager:
 
         return jokers
 
-    # ---------- Deck creation ----------
-    # TODO (TASK 1): Implement a function that creates a full deck of Cards.
+    # ---------- deck creation ----------
+    # TODO (TASK 1): Implement a function that creates a full deck of cards.
     #   Loop through all possible suits and ranks, retrieve the corresponding image
     #   from the card_images dictionary using (suit, rank) as the key, and create a Card
     #   object for each valid combination. If a matching image is not found, skip that card.
@@ -189,7 +189,7 @@ class DeckManager:
 
         houseImage = None
         if bossName == "The House":
-            sheet = pygame.image.load('Graphics/Cards/Poker_Sprites.png').convert_alpha()
+            sheet = pygame.image.load('graphics/cards/Poker_Sprites.png').convert_alpha()
             houseImage = sheet.subsurface(pygame.Rect(0, 0, self.srcCardW, self.srcCardH)).copy()
 
         take = min(numCards, len(deck))

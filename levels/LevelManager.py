@@ -1,13 +1,13 @@
-from Levels.SubLevel import SubLevel, Blind
+from levels.SubLevel import SubLevel, Blind
 class LevelManager():
     def __init__(self, p = None):
-        #-------------------Initialize Levels and Player-------------------
+        #-------------------Initialize levels and Player-------------------
         self.levelsDict = {} # Dict of levels, key : ante: int, value : list of sublevels : list[SubLevel]
         self.p = None # Player info (must be set up later) -> setUpPlayer()
         self.curLevel = [] # List of current sublevels : list[SubLevel]
         self.curSubLevel = None # Current sublevel : SubLevel
         self.playerWins = False
-        #----------Setup Levels and Player----------------------
+        #----------Setup levels and Player----------------------
         self.setUpPlayer(p)
         self.setUpLevels()
         self.updateLevels()

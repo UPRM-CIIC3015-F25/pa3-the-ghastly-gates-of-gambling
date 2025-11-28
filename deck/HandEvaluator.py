@@ -1,4 +1,4 @@
-from Cards.Card import Card, Rank
+from cards.Card import Card, Rank
 
 # TODO (TASK 3): Implement a function that evaluates a player's poker hand.
 #   Loop through all cards in the given 'hand' list and collect their ranks and suits.

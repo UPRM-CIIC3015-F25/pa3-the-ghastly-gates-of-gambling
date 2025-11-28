@@ -1,5 +1,5 @@
 import pygame
-from States.Core.StateClass import State
+from states.core.StateClass import State
 
 
 #---------- Debug Overlay State ----------
@@ -10,8 +10,8 @@ class DebugState(State):
         self.visible = False  # Whether the debug UI is shown
 
         # === Fonts and overlay setup ===
-        self.font = pygame.font.Font("graphics/Text/m6x11.ttf", 24)
-        self.smallFont = pygame.font.Font("graphics/Text/m6x11.ttf", 18)
+        self.font = pygame.font.Font("graphics/text/m6x11.ttf", 24)
+        self.smallFont = pygame.font.Font("graphics/text/m6x11.ttf", 18)
 
         self.bg_surface = pygame.Surface((400, 250), pygame.SRCALPHA)
         self.bg_surface.fill((10, 10, 10, 200))  # semi-transparent dark background

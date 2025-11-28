@@ -1,17 +1,17 @@
 import pygame
-from States.Core.StateClass import State
+from states.core.StateClass import State
 import math
 
 class StartState(State):
     def __init__(self, nextState: str = ""):
         super().__init__(nextState)
         # ----------------------------- Background --------------------------------
-        self.backgroundImage = pygame.image.load('Graphics/Backgrounds/introBackground.jpeg')
+        self.backgroundImage = pygame.image.load('graphics/backgrounds/introBackground.jpeg')
         self.background = pygame.transform.scale(self.backgroundImage, (1300, 750))
         self.backgroundRect = self.background.get_rect(topleft=(0, 0))
 
         # ----------------------------- Title -------------------------------------
-        self.titleImage = pygame.image.load('Graphics/Backgrounds/balatroTitle.png')
+        self.titleImage = pygame.image.load('graphics/backgrounds/balatroTitle.png')
         original_width, original_height = self.titleImage.get_size()
         scale_factor = 700 / original_width
         new_width = int(original_width * scale_factor)
@@ -26,14 +26,14 @@ class StartState(State):
         self.breathTime = 0
 
         # ----------------------------- Text --------------------------------------
-        self.textFont1 = pygame.font.Font('Graphics/Text/m6x11.ttf', 50)
-        self.textFont2 = pygame.font.Font('Graphics/Text/m6x11.ttf', 40)
+        self.textFont1 = pygame.font.Font('graphics/text/m6x11.ttf', 50)
+        self.textFont2 = pygame.font.Font('graphics/text/m6x11.ttf', 40)
         self.textPlay = self.textFont1.render("PLAY", True, 'white')
         self.textInstructions = self.textFont2.render("HELP", True, 'white')
         self.textQuit = self.textFont1.render("QUIT", True, 'white')
 
         # ----------------------------- Title Card --------------------------------
-        self.titleCardImage = pygame.image.load('Graphics/Backgrounds/titleCard.png')
+        self.titleCardImage = pygame.image.load('graphics/backgrounds/titleCard.png')
         self.baseCardSize = (150, 220)
         self.titleCard = pygame.transform.scale(self.titleCardImage, self.baseCardSize)
         self.titleCardRect = self.titleCard.get_rect(topleft=(575, 150))
@@ -60,19 +60,19 @@ class StartState(State):
         self.buttonQuit.topleft = (x, (self.buttonBar.height - self.buttonQuit.height) // 2)
 
         # ----------------------------- TV Overlay --------------------------------
-        self.tvOverlay = pygame.image.load('Graphics/Backgrounds/CRT.png').convert_alpha()
+        self.tvOverlay = pygame.image.load('graphics/backgrounds/CRT.png').convert_alpha()
         self.tvOverlay = pygame.transform.scale(self.tvOverlay, (1300, 750))
 
         # ----------------------------- Help Screen --------------------------------
         self.showHelpScreen = False
-        self.helpFont = pygame.font.Font('Graphics/Text/m6x11.ttf', 30)
+        self.helpFont = pygame.font.Font('graphics/text/m6x11.ttf', 30)
         self.helpText = [
             "Welcome to Balatro!",
             "Goal: Play the best hand and win the game.",
-            "1. Select up to 5 Cards by clicking on them.",
+            "1. Select up to 5 cards by clicking on them.",
             "2. Play your hand with the 'PLAY' button.",
             "3. Sort your hand using 'Rank' or 'Suit'.",
-            "4. Discard unwanted Cards with the 'QUIT' button.",
+            "4. Discard unwanted cards with the 'QUIT' button.",
             "5. Have fun and enjoy the game!"
         ]
 

@@ -1,13 +1,13 @@
 import pygame
-from States.Core.StateClass import State
+from states.core.StateClass import State
 
 
 class GameWinState(State):
     def __init__(self, nextState: str = ""):
         super().__init__(nextState)
         # Fonts
-        self.title_font = pygame.font.Font('Graphics/Text/m6x11.ttf', 48)
-        self.btn_font = pygame.font.Font('Graphics/Text/m6x11.ttf', 28)
+        self.title_font = pygame.font.Font('graphics/text/m6x11.ttf', 48)
+        self.btn_font = pygame.font.Font('graphics/text/m6x11.ttf', 28)
 
         # Buttons (centered)
         self.restart_rect = pygame.Rect(0, 0, 240, 64)
@@ -18,10 +18,10 @@ class GameWinState(State):
         self.quit_rect.center = (self.screen_center[0], self.screen_center[1] + 110)
 
         # Background image (optional)
-        self.bg = pygame.image.load('Graphics/Backgrounds/gameplayBG.jpg')
+        self.bg = pygame.image.load('graphics/backgrounds/gameplayBG.jpg')
         self.bg = pygame.transform.scale(self.bg, (1300, 750))
         # TV overlay (CRT filter)
-        self.tvOverlay = pygame.image.load('Graphics/Backgrounds/CRT.png').convert_alpha()
+        self.tvOverlay = pygame.image.load('graphics/backgrounds/CRT.png').convert_alpha()
         self.tvOverlay = pygame.transform.scale(self.tvOverlay, (1300, 750))
 
     def update(self):
@@ -100,7 +100,7 @@ class GameWinState(State):
                 self.isFinished = True
                 # Next State
                 pygame.mixer.music.stop()
-                pygame.mixer.music.load("Graphics/Sounds/mainTheme.mp3")
+                pygame.mixer.music.load("graphics/sounds/mainTheme.mp3")
                 pygame.mixer.music.set_volume(0.3)
                 pygame.mixer.music.play(-1)
                 self.nextState = "GameState"

@@ -1,7 +1,7 @@
 import pygame
-from Deck.DeckManager import DeckManager
-from States.Core.StateClass import State
-from States.Core.PlayerInfo import PlayerInfo
+from deck.DeckManager import DeckManager
+from states.core.StateClass import State
+from states.core.PlayerInfo import PlayerInfo
 
 class LevelSelectState(State):
     def __init__(self, playerInfo: PlayerInfo = None, nextState: str = "", deckManager: DeckManager = None):
@@ -13,16 +13,16 @@ class LevelSelectState(State):
         self.deckManager = deckManager # DeckManager object
 
         # -------------------Load CRT Overlay-------------------------------------
-        self.tvOverlay = pygame.image.load('Graphics/Backgrounds/CRT.png').convert_alpha()
+        self.tvOverlay = pygame.image.load('graphics/backgrounds/CRT.png').convert_alpha()
         self.tvOverlay = pygame.transform.scale(self.tvOverlay, (1300, 750))
         
         # -------------------------Fonts used in the UI---------------------------
-        self.font = pygame.font.Font('Graphics/Text/m6x11.ttf', 30)
-        self.font2 = pygame.font.Font('Graphics/Text/m6x11.ttf', 22)
-        self.font3 = pygame.font.Font('Graphics/Text/m6x11.ttf', 60)
-        self.font4 = pygame.font.Font('Graphics/Text/m6x11.ttf', 40)
+        self.font = pygame.font.Font('graphics/text/m6x11.ttf', 30)
+        self.font2 = pygame.font.Font('graphics/text/m6x11.ttf', 22)
+        self.font3 = pygame.font.Font('graphics/text/m6x11.ttf', 60)
+        self.font4 = pygame.font.Font('graphics/text/m6x11.ttf', 40)
         
-        #----------- Layout for multiple sublevel Cards ---------------------------
+        #----------- Layout for multiple sublevel cards ---------------------------
         self.cardWidth = 280
         self.cardHeight = 450
         self.cardSpacing = 40
@@ -49,7 +49,7 @@ class LevelSelectState(State):
         overlay.fill((0, 0, 0, 180))
         self.screen.blit(overlay, (0, 0))
         
-        # Draw level Cards and continue button
+        # Draw level cards and continue button
         self.drawLevelCards()
         self.drawContinueButton()
         
