@@ -142,3 +142,30 @@ class DebugState(State):
                 if self.game_state:
                     player = self.game_state.playerInfo
                     player.playerMoney += 1
+
+            elif self.visible and events.key in [pygame.K_0, pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4,
+                                                     pygame.K_5, pygame.K_6, pygame.K_7, pygame.K_8, pygame.K_9]:
+                if self.game_state:
+                    joker_map = {
+                            pygame.K_0: "The Joker",
+                            pygame.K_1: "Michael Myers",
+                            pygame.K_2: "Fibonacci",
+                            pygame.K_3: "Gauntlet",
+                            pygame.K_4: "Ogre",
+                            pygame.K_5: "StrawHat",
+                            pygame.K_6: "Hog Rider",
+                            pygame.K_7: "? Block",
+                            pygame.K_8: "Hogwarts",
+                            pygame.K_9: "802"
+                        }
+                    joker_name = joker_map.get(events.key)
+                    if joker_name and len(self.game_state.playerJokers) < 2:
+                        if joker_name not in self.game_state.playerJokers:
+                            self.game_state.playerJokers.append(joker_name)
+                            print(f"[DEBUG] Added Joker: {joker_name}")
+                        else:
+                            print(f"[DEBUG] Already own {joker_name}")
+                    elif len(self.game_state.playerJokers) >= 2:
+                            print("[DEBUG] Maximum 2 Jokers allowed!")
+
+
