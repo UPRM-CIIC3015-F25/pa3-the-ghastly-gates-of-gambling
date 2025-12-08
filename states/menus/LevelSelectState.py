@@ -90,6 +90,13 @@ class LevelSelectState(State):
                 #   on which boss is active.
                 #   Finally, make sure to reset the player’s round score to 0 at the end of this setup.
                 #   Avoid unnecessary repetition—use clear condition structure to make the logic readable.
+                if nxt.bossLevel == "The Needle":
+                    self.playerInfo.amountOfHands = 1
+                elif nxt.bossLevel == "The Manacle":
+                    self.playerInfo.amountOfHands -= 1
+                elif nxt.bossLevel == "The Water":
+                    self.playerInfo.amountOfDiscards = 0
+
                 self.playerInfo.roundScore = 0
                 
                 # Set target score for the new sublevel
@@ -116,7 +123,12 @@ class LevelSelectState(State):
         #   what unique restriction or ability that boss applies during the round.
         #   This dictionary will later be used to look up and apply special effects based on which boss is active.
         boss_abilities = {
-
+            "The Mark": "All Face cards are drawn face down.",
+            "The Needle": "Play only 1 hand.",
+            "The House": "First hand is drawn face down.",
+            "The Hook": "Discards 2 random cards held in hand after every played hand.",
+            "The Water": "Start with 0 discards.",
+            "The Manacle": "-1 hand size."
         }
 
         # Dict of boss with their color schemes
