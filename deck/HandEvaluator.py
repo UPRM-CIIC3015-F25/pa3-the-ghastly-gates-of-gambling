@@ -30,6 +30,7 @@ def evaluate_hand(hand: list[Card]):
             count_rank[rank] = 1
         else:
             count_rank[rank] += 1
+
     four_of_a_kind = False
     flush = False
     straight = False
@@ -49,10 +50,21 @@ def evaluate_hand(hand: list[Card]):
             flush = True
     def rank_index(i):
         return rank_order.index(i)
-    ranks.sort(key=rank_index)
-    first_index = rank_index(ranks[0])
-    if ranks == rank_order[first_index:first_index+5]:
-        straight = True
+    def has_straight(ranks_list):
+        indice = []
+        for r in set(ranks_list):
+            indice.append(rank_index(r))
+        indice.sort()
+        if Rank.ACE in ranks_list:
+            indice.append(len(rank_order))
+            indice.sort()
+
+        for i in range(len(indice) - 4):
+            if indice[i+4] - indice[i] == 4:
+                return True
+        return False
+
+    straight = has_straight(ranks)
     if straight and flush:
         return "Straight Flush"
     elif four_of_a_kind:
