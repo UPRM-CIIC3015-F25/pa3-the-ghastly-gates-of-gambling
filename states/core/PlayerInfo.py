@@ -8,6 +8,7 @@ class PlayerInfo(State):
         super().__init__(nextState)
         # ----------------------------Player Stats--------------------------------------------
         self.roundScore = 0                 # Current round score (depending on curSubLevel)
+        self.moneyScore = 0                 # Memory for round score
         self.playerChips = 0                # Current chip count
         self.playerMultiplier = 0           # Current score multiplier
         self.amountOfHands = 4              # Default number of hands

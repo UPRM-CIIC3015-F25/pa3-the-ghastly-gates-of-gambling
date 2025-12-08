@@ -5,6 +5,7 @@ from states.core.StateClass import State
 from cards.Card import Suit, Rank
 from states.core.PlayerInfo import PlayerInfo
 from deck.HandEvaluator import evaluate_hand
+from levels.SubLevel import Blind
 
 
 HAND_SCORES = {
@@ -168,7 +169,8 @@ class GameState(State):
 
         # Check if level is finished and transition to LevelSelectState
         if self.playerInfo.levelFinished:
-            reward = self.calculate_gold_reward(self.playerInfo)
+            reward = self.calculate_gold_reward()
+            self.playerInfo.moneyScore = 0
             self.playerInfo.playerMoney += reward
             self.playerInfo.amountOfHands = 4
             self.playerInfo.amountOfDiscards = 4
@@ -204,6 +206,7 @@ class GameState(State):
                 # Commit pending round addition and reset displayed chips/multiplier
                 if getattr(self, "pending_round_add", 0) > 0:
                     self.playerInfo.roundScore += self.pending_round_add
+                    self.playerInfo.moneyScore += self.pending_round_add
                     self.pending_round_add = 0
                 self.playerInfo.playerChips = 0
                 self.playerInfo.playerMultiplier = 0
@@ -534,8 +537,20 @@ class GameState(State):
     #     - Recursive calculation of the overkill bonus (based on how much score exceeds the target)
     #     - A clear base case to stop recursion when all parts are done
     #   Avoid any for/while loops — recursion alone must handle the repetition.
-    def calculate_gold_reward(self, playerInfo, stage=0):
-            return 0
+    def calculate_gold_reward(self):
+            # You don't need recursion here what.
+            target = self.playerInfo.levelManager.curSubLevel.score
+            score = self.playerInfo.moneyScore
+            blind = self.playerInfo.levelManager.curSubLevel.blind
+            base = 0
+            if blind == Blind.SMALL:
+                base = 4
+            if blind == Blind.BIG:
+                base = 8
+            if blind == Blind.BOSS:
+                base = 10
+            bonus = int(round(min(5, max(0,(score-target)/target)), 0))
+            return base + bonus
 
     def updateCards(self, posX, posY, cardsDict, cardsList, scale=1.5, spacing=90, baseYOffset=-20, leftShift=40):
         cardsDict.clear()
